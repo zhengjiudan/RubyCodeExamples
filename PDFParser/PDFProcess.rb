@@ -23,7 +23,9 @@ def process_pdf_file(pdf_file)
     if File::exists?(pdf_file)
       PDF::Reader.open(pdf_file) do |pdf_reader|
         return unless pdf_reader
-        puts pdf_reader.objects.each{ |ref, object| puts object}
+        puts pdf_reader.pages[11].text.encode("gb2312")
+        pdf_reader.pages[11].page_object.each do |id,value|
+        end
 #        puts pdf_reader.pages[0].objects.inspect
 #        puts pdf_reader.info.inspect
 #        puts pdf_reader.metadata.inspect
@@ -31,28 +33,27 @@ def process_pdf_file(pdf_file)
 #        puts pdf_reader.page_count
 #        puts pdf_reader.pages[0].text.length
 #        process_pdf_page(pdf_reader.pages[0])
-        pdf_reader.pages[0].objects.deref(pdf_reader.pages[0].attributes[:Resources]).each {|resource| puts resource }
-        pdf_reader.pages[0].text.each_line do |line|
-          contents = line.encode("gb2312")
+#        pdf_reader.pages[0].text.each_line do |line|
+#          contents = line.encode("gb2312")
 #          puts contents.class
 #          puts contents	
-          profits = /\u{76c8}\u{5229}([\d,\.]+)/u.match(line)
-          if profits
-            1.upto(profits.length) do |i|
+#          profits = /\u{76c8}\u{5229}([\d,\.]+)/u.match(line)
+#          if profits
+#            1.upto(profits.length) do |i|
 #              puts profits[i-1]
-            end
-          end
+#            end
+#          end
 #          contents.split('\r') { |line| puts line }
 #        contents.each { |line| puts line }
 #        puts page.raw_content
-          end
-        end
-      return
-    end
-    rescue Exception=>e
-      puts "Error happens: #{e}"
-      puts "Error is #{$!}"
-      puts "Error happens at #{$@}"
+#          end
+      end
+    return
+  end
+  rescue Exception=>e
+    puts "Error happens: #{e}"
+    puts "Error is #{$!}"
+    puts "Error happens at #{$@}"
   end
 end
 
